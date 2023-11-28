@@ -385,13 +385,23 @@ PRODUCT_PRODUCT_PROPERTIES += \
     
 # QTI Components
 TARGET_COMMON_QTI_COMPONENTS := \
+    adreno \
     alarm \
+    audio \
+    av \
     bt \
+    display \
+    gps \
+    init \
     media \
+    nfc \
     overlay \
     perf \
     telephony \
-    usb
+    usb \
+    vibrator \
+    wfd \
+    wlan
 
 # Ramdisk
 PRODUCT_PACKAGES += \
