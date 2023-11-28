@@ -1,10 +1,12 @@
 /*
- * Copyright (C) 2022 The LineageOS Project
+ * Copyright (C) 2022-2023 The LineageOS Project
  * SPDX-License-Identifier: Apache-2.0
  */
 
+#include <android-base/file.h>
 #include <android-base/logging.h>
 #include <android-base/properties.h>
+#include <android-base/strings.h>
 
 #define _REALLY_INCLUDE_SYS__SYSTEM_PROPERTIES_H_
 #include <stdio.h>
@@ -17,6 +19,9 @@
 #include "vendor_init.h"
 
 using android::base::GetProperty;
+using android::base::ReadFileToString;
+using android::base::Split;
+using android::base::Trim;
 using std::string;
 
 std::vector<std::string> ro_props_default_source_order = {
@@ -292,4 +297,8 @@ void vendor_load_properties() {
     set_ro_build_prop("model", model);
     set_ro_build_prop("name", name);
     set_ro_build_prop("product", model, false);
+    
+    if (std::string content; ReadFileToString("/proc/devinfo/ddr_type", &content)) {
+        OverrideProperty("ro.boot.ddr_type", Split(Trim(content), "\t").back().c_str());
+    }
 }
